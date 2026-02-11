@@ -2,32 +2,31 @@ import React, { useState } from 'react';
 import Terminal from './Terminal';
 import Blackboard from './Blackboard';
 import { generateCodingLesson } from '../services/gemini';
-import { Cpu, BookOpen } from 'lucide-react';
+import { Shield, Terminal as TerminalIcon, BookOpen, Bug } from 'lucide-react';
 
 const CodeAcademy: React.FC = () => {
   const [history, setHistory] = useState<Array<{ type: 'user' | 'system', text: string }>>([]);
   
-  // Updated default content with New Modules Guide
+  // Updated content to focus on Cybersecurity
   const [boardContent, setBoardContent] = useState<string>(
-`# Academy v2.1: Deployment Ready
+`# Cyber Defense Academy
 
-## Newly Added Curricula:
-- **GIS & Mapping**: Leaflet (React/Python), GeoPandas, Rasterio
-- **Automation**: Selenium WebDriver
-- **Deployment**: Vercel & Cloudflare (React)
-- **Cybersecurity**: Ethical Hacking Basics
+## Mission
+Master the code behind the threats. Understand offensive logic to build robust defenses.
+
+## Core Curricula:
+- **Network Forensics**: Python Scapy, Socket Programming, Traffic Analysis
+- **Malware Analysis**: Cryptography basics, Persistence mechanisms (Registry/WMI)
+- **Defensive Scripting**: Log parsing, File Integrity Monitoring (FIM)
 
 ## Quick Start
-Select a module from the "Quick Library" panel (bottom left) or type:
-- \`teach deployment vercel\`
-- \`teach deployment cloudflare\`
-- \`teach geopandas basics\`
-- \`teach hacking basics\`
+Select a module from the "Command Center" panel or type:
+- \`teach python scapy basics\`
+- \`teach ransomware encryption logic\`
+- \`teach network socket server\`
 
-## Code Execution
-- **Web**: Run React code in your local VS Code environment.
-- **Python**: Run scripts via \`python3 script.py\`.
-- **Install**: Remember to \`pip install\` or \`npm install\` the required packages shown in lessons.`
+## Safety Warning
+All code is for educational defense purposes only. Do not execute on unauthorized networks.`
   );
   
   const [loading, setLoading] = useState(false);
@@ -36,23 +35,28 @@ Select a module from the "Quick Library" panel (bottom left) or type:
     setHistory(prev => [...prev, { type: 'user', text: cmd }]);
     setLoading(true);
 
-    // AI Call
-    const lesson = await generateCodingLesson(cmd);
-    
-    setBoardContent(lesson);
-    setHistory(prev => [...prev, { type: 'system', text: `Lesson generated for: "${cmd}"` }]);
-    setLoading(false);
+    try {
+        // AI Call
+        const lesson = await generateCodingLesson(cmd);
+        
+        setBoardContent(lesson);
+        setHistory(prev => [...prev, { type: 'system', text: `Accessing Knowledge Base: "${cmd}"...` }]);
+    } catch (e) {
+        setHistory(prev => [...prev, { type: 'system', text: `Error: Uplink failed.` }]);
+    } finally {
+        setLoading(false);
+    }
   };
 
   const modules = [
-    { label: "Requests (API)", cmd: "teach python requests basics" },
-    { label: "Leaflet (React)", cmd: "teach react leaflet basics" },
-    { label: "Deploy: Vercel", cmd: "teach deployment vercel react" },
-    { label: "Deploy: Cloudflare", cmd: "teach deployment cloudflare react" },
-    { label: "Selenium (Auto)", cmd: "teach python selenium basics" },
-    { label: "GeoPandas (GIS)", cmd: "teach python geopandas basics" },
-    { label: "Hacking 101", cmd: "teach ethical hacking basics python" },
-    { label: "React Basics", cmd: "teach react basics" },
+    { label: "Scapy (Packet Ops)", cmd: "teach python scapy basics" },
+    { label: "Socket Networking", cmd: "teach python socket programming" },
+    { label: "Crypto/Ransom", cmd: "teach python cryptography basics" },
+    { label: "Log Forensics", cmd: "teach python log analysis regex" },
+    { label: "Persistence", cmd: "teach malware persistence registry" },
+    { label: "Firewall Rules", cmd: "teach iptables defense logic" },
+    { label: "Web Requests", cmd: "teach python requests security" },
+    { label: "Port Scanning", cmd: "teach python nmap basics" },
   ];
 
   return (
@@ -60,12 +64,12 @@ Select a module from the "Quick Library" panel (bottom left) or type:
        {/* Left Column: Terminal & Quick Library */}
        <div className="lg:col-span-1 flex flex-col gap-4 h-full">
            <div className="bg-slate-800 p-4 rounded-lg border border-slate-700 shrink-0">
-              <h2 className="text-xl font-bold text-green-400 flex items-center gap-2">
-                  <Cpu className="w-5 h-5" />
-                  DevOps Training
+              <h2 className="text-xl font-bold text-cyan-400 flex items-center gap-2">
+                  <TerminalIcon className="w-5 h-5" />
+                  Terminal Access
               </h2>
               <p className="text-sm text-slate-400 mt-1">
-                  Master the languages of creation, defense, and deployment.
+                  Execute commands to access the Defense Knowledge Base.
               </p>
            </div>
            
@@ -81,7 +85,7 @@ Select a module from the "Quick Library" panel (bottom left) or type:
            <div className="bg-slate-800 p-4 rounded-lg border border-slate-700 shrink-0">
               <h3 className="text-sm font-bold text-slate-300 mb-3 flex items-center gap-2">
                  <BookOpen className="w-4 h-4 text-cyan-400" />
-                 Quick Library
+                 Defense Modules
               </h3>
               <div className="grid grid-cols-2 gap-2">
                  {modules.map((mod) => (
@@ -92,6 +96,7 @@ Select a module from the "Quick Library" panel (bottom left) or type:
                       className="text-xs text-left p-2 rounded bg-slate-700/50 hover:bg-slate-600 border border-slate-600 hover:border-cyan-500/50 transition-all text-slate-300 hover:text-white truncate"
                       title={mod.label}
                     >
+                      <Bug className="w-3 h-3 inline mr-1 opacity-50" />
                       {mod.label}
                     </button>
                  ))}
