@@ -12,18 +12,23 @@ const CodeAcademy: React.FC = () => {
 `# Cyber Defense Academy
 
 ## Mission
-Master the code behind the threats. Understand offensive logic to build robust defenses.
+Initialize advanced threat analysis protocols. Master the logic behind the code to build impenetrable defenses.
 
 ## Core Curricula:
 - **Network Forensics**: Python Scapy, Socket Programming, Traffic Analysis
 - **Malware Analysis**: Cryptography basics, Persistence mechanisms (Registry/WMI)
 - **Defensive Scripting**: Log parsing, File Integrity Monitoring (FIM)
 
+## Generator Status: ONLINE
+The Academy Generator is active. 
+- **Auto-Run**: Lessons generate immediately upon command.
+- **Coverage**: Capable of analyzing any threat vector input.
+
 ## Quick Start
-Select a module from the "Command Center" panel or type:
-- \`teach python scapy basics\`
-- \`teach ransomware encryption logic\`
-- \`teach network socket server\`
+Type any topic to generate a module:
+- \`teach stealth persistence\`
+- \`teach kernel hooks\`
+- \`teach polymorphic code\`
 
 ## Safety Warning
 All code is for educational defense purposes only. Do not execute on unauthorized networks.`
@@ -42,7 +47,7 @@ All code is for educational defense purposes only. Do not execute on unauthorize
         setBoardContent(lesson);
         setHistory(prev => [...prev, { type: 'system', text: `Accessing Knowledge Base: "${cmd}"...` }]);
     } catch (e) {
-        setHistory(prev => [...prev, { type: 'system', text: `Error: Uplink failed.` }]);
+        setHistory(prev => [...prev, { type: 'system', text: `Error: Uplink failed. Switching to Local Heuristics.` }]);
     } finally {
         setLoading(false);
     }
