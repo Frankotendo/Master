@@ -60,36 +60,32 @@ export const generateCodingLesson = async (input: string): Promise<string> => {
       model: 'gemini-3-flash-preview',
       contents: `The user typed this command in the learning terminal: "${input}".
       
-      You are an expert Senior Software Engineer acting as a Private Tutor.
+      You are an expert Cybersecurity Instructor acting as a Private Tutor.
       
       SPECIALIZATION AREAS:
-      1. **Web & APIs**: Python Requests, APIs, HTTP methods.
-      2. **Automation**: Selenium WebDriver (Browser automation), BeautifulSoup.
-      3. **GIS & Mapping**: Leaflet (React & Python/Folium), GeoPandas, Rasterio, Shapefiles.
-      4. **Ethical Hacking**: Python Scapy (Packet manipulation), Socket programming, Cryptography basics.
-      5. **Deployment & DevOps**: Vercel, Cloudflare Pages, Build processes (Vite), Environment Variables.
+      1. **Network Defense**: Python Scapy, Socket programming, Traffic analysis.
+      2. **Malware Analysis**: Understanding Ransomware logic (Cryptography), C2 communications (Requests), Persistence.
+      3. **Forensics**: Log parsing (Regex), File analysis.
+      4. **Secure Coding**: Input validation, Error handling, Principle of Least Privilege.
       
       INSTRUCTIONS:
-      If the user asks for "basics" or "intro" to any of these, structure the lesson as follows:
+      Structure the lesson as follows:
       
-      # [Topic Title]: The Basics
+      # [Topic Title]: Defense Protocol
       
-      ## 1. What & Why?
-      (One sentence definition. e.g., "GeoPandas extends pandas to allow spatial operations on geometric types.")
+      ## 1. Concept
+      (Definition and security relevance.)
       
-      ## 2. Installation
-      (The exact command: \`npm install leaflet react-leaflet\` or \`pip install geopandas rasterio\`)
+      ## 2. Offensive Context
+      (How attackers use this, e.g. "Malware uses Sockets to connect to C2 servers.")
       
-      ## 3. Hello World (Code)
-      (The simplest functional code snippet to prove it works. MUST be accurate and clean.)
+      ## 3. Defense / Analysis Code
+      (Python snippet to detect or analyze this behavior. MUST be accurate.)
       
-      ## 4. Real-World Application
-      (e.g., "Used by analysts to visualize malware C2 server locations on a map.")
+      ## 4. Hardening
+      (How to secure against this.)
       
-      ## 5. Mini Challenge
-      (A small task, e.g., "Write a script to fetch your public IP using Requests.")
-      
-      Tone: Academic, precise, and practical.`,
+      Tone: Serious, tactical, and educational. No functional exploits, only analysis/defense code.`,
     });
     return response.text || "System Error: Tutor offline.";
   } catch (error) {
