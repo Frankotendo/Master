@@ -1,0 +1,7 @@
+{
+  "name": "Malware Analysis & Defense Lab",
+  "description": "Educational platform for analyzing malware behavior, understanding code vulnerabilities, and simulating network defense strategies.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
