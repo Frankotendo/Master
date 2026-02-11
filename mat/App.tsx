@@ -303,8 +303,9 @@ const App: React.FC = () => {
           if (n.status === 'secure') {
              // Re-infection Logic for Persistent nodes that were cleaned previously
              if (n.isPersistent && malwareParams.persistence) {
-                 if (Math.random() < 0.1) { // 10% chance per tick to re-trigger
-                     addLog(`${n.label} RE-INFECTED via Registry Persistence!`, 'alert');
+                 // INCREASED: 90% chance to re-infect (Persistent Rootkit behavior)
+                 if (Math.random() < 0.9) { 
+                     addLog(`${n.label} RE-INFECTED via Registry Persistence! (Rootkit Active)`, 'alert');
                      return { ...n, status: 'infected' };
                  }
              }
@@ -313,18 +314,14 @@ const App: React.FC = () => {
           
           // Clean chance depends on Patch Level and Inverse of Polymorphism
           let cleanChance = config.patchingLevel === 'low' ? 0.1 : config.patchingLevel === 'medium' ? 0.3 : 0.6;
-          // Polymorphism makes it harder to clean/detect
-          cleanChance = cleanChance * (1 - (malwareParams.polymorphism / 200)); 
+          // Polymorphism logic update: if polymorphism is high (100), cleanChance drops to 0.
+          // Formula: if poly is 100, (1 - 100/105) approx 0.05. Very hard to clean.
+          cleanChance = cleanChance * (1 - (malwareParams.polymorphism / 105)); 
 
           if (config.antivirusEnabled && Math.random() < cleanChance) {
              // Successful clean
              if (n.isPersistent && malwareParams.persistence) {
                  // But wait! It's persistent!
-                 // 30% chance it immediately reinfects via Auto-Run
-                 if (Math.random() < 0.3) {
-                     addLog(`Clean failed on ${n.label}: Malware re-executed via Auto-Run key`, 'alert');
-                     return n; // Stay infected
-                 }
                  addLog(`${n.label} cleaned, but persistence artifacts remain...`, 'warning');
                  return { ...n, status: 'secure' }; // Cleaned, but isPersistent flag stays true
              } else {
@@ -406,9 +403,10 @@ const App: React.FC = () => {
               if (p.type === 'malware') {
                   const vulnChance = config.patchingLevel === 'low' ? 0.9 : config.patchingLevel === 'medium' ? 0.5 : 0.2;
                   
-                  // AV Detection vs Polymorphism
+                  // AV Detection vs Polymorphism (Bypass Logic)
                   let avEfficiency = 0.85; // Base
-                  avEfficiency -= (malwareParams.polymorphism / 200); // Reduce up to 50%
+                  // Updated: If polymorphism is > 90, AV efficiency drops to near 0.
+                  avEfficiency -= (malwareParams.polymorphism / 110); 
 
                   if (config.antivirusEnabled && Math.random() < avEfficiency) {
                       blocked = true;
